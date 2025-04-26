@@ -12,5 +12,5 @@
 @theme {
     --font-sans: 'Hanken Grotesk', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-background-black: #060606;
+    --color-background-black: #14213d; /*-- #060606;*/
 }
