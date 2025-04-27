@@ -2,24 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
-use App\Models\Post;
-use App\Models\Tag;
+use Illuminate\Http\Request;
 
-class PostController extends Controller
+class SessionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $posts = Post::all()->groupBy('featured');
-        return view('posts.index', [
-            'featuredPosts' => $posts[1],
-            'posts' => $posts[0],
-            'tags' => Tag::all(),
-        ]);
+        //
     }
 
     /**
@@ -27,13 +19,13 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('auth.login');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -41,7 +33,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(string $id)
     {
         //
     }
@@ -49,7 +41,7 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit(string $id)
     {
         //
     }
@@ -57,7 +49,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -65,7 +57,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(string $id)
     {
         //
     }

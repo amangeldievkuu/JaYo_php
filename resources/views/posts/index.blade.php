@@ -7,9 +7,9 @@
             </form>
         </section>
         <section class="pt-10">
-            <x-section-heading>Top Posts</x-section-heading>
+            <x-section-heading>Featured Posts</x-section-heading>
             <div class="grid lg:grid-cols-3 gap-8 mt-6">
-               @foreach($posts as $post)
+               @foreach($featuredPosts as $post)
                     <x-job-card :$post/>
                @endforeach
 
@@ -22,8 +22,6 @@
                 @foreach($tags as $tag)
                     <x-tag :$tag/>
                 @endforeach
-
-
             </div>
         </section>
 
@@ -33,7 +31,6 @@
                 @foreach($posts as $post)
                     <x-job-card-wide :$post />
                 @endforeach
-
             </div>
         </section>
     </div>
