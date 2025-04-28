@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Employer;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,13 +19,9 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'employer_id' => Employer::factory(),
-            'title' => fake()->jobTitle(),
-            'salary' => fake()->randomElement(['50,000$', '60,000$', '70,000$', '80,000$', '120,000$', '150,000$', '90,000$']),
-            'location' => fake()->randomElement(['Remote', fake()->city()]),
-            'schedule' => fake()->randomElement(['Full Time', 'Part Time', 'Internship']),
-            'url' => fake()->url(),
-            'featured' => false
+            'user_id' => User::factory(),
+            'content_front' => fake()->words(),
+            'is_public' => true,
         ];
     }
 }

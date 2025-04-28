@@ -15,11 +15,6 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
-        $tags = Tag::factory(3)->create();
-        Post::factory(20)->hasAttached($tags)->create(new Sequence([
-            'featured' => false,
-        ], [
-            'featured' => true,
-        ]));
+        Post::factory(20);
     }
 }
