@@ -12,16 +12,29 @@ use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+//    $mostLiked = Post::with(['user', 'likes'])
+//        ->where(function ($query) {
+//            $query->where('is_public', true);
+//            if (auth()->check()) {
+//                $query->orWhere('user_id', auth()->id());
+//            }
+//        })
+//        ->latest()
+//        ->take(3)   // ⚡ Only take 3 posts
+//        ->get();
+
     $mostLiked = Post::with(['user', 'likes'])
+        ->withCount('likes') // count likes as `likes_count`
         ->where(function ($query) {
             $query->where('is_public', true);
             if (auth()->check()) {
                 $query->orWhere('user_id', auth()->id());
             }
         })
-        ->latest()
-        ->take(3)   // ⚡ Only take 3 posts
+        ->orderByDesc('likes_count') // sort by likes count
+        ->take(3)
         ->get();
+
 
     $posts = Post::with(['user', 'likes'])
         ->where(function ($query) {
@@ -36,18 +49,22 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class);
+    Route::get('/flashcards', [PostController::class, 'flashcards'])
+        ->name('posts.flashcards');
 });
 
-Route::middleware(['auth:sanctum'])
-    ->post('/posts/{post}/like', [LikeController::class, 'toggle'])
-    ->name('posts.like');
+Route::post('/posts/{post}/toggle-privacy', [PostController::class, 'togglePrivacy'])
+    ->name('posts.togglePrivacy')
+    ->middleware('auth');
+
+Route::post('/posts/{post}/like', [LikeController::class, 'toggle'])
+    ->name('posts.like')
+    ->middleware('auth');
+
 
 Route::middleware(['auth'])
     ->post('/posts/{post}/comments', [CommentController::class, 'store'])
     ->name('comments.store');
-
-//Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth');
-//Route::post('/posts', [PostController::class, 'store']);
 
 Route::get('/search', SearchController::class);
 Route::get('/tags/{tag:name}', TagController::class);

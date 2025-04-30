@@ -12,5 +12,12 @@
 @theme {
     --font-sans: 'Hanken Grotesk', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-background-black: #14213d; /*-- #060606;*/
+    --color-background-black: #000000; /*--#a28089;*/
+    --color-card-bg:  #FFC1DA; /*--#C599B6;*/
+    --color-card-text: #000;
+    --color-card-back-bg: #9c697d;
+    --color-body-text: #ffffff;
+    --color-section-heading: #ffffff;
+    --color-card-back-section: #000;
+    --color-card-wide-bg: #9c697d;
 }

@@ -26,28 +26,11 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-//    public function index()
-//    {
-//        $posts = Post::query()
-//            ->latest()
-//            ->with(['employer', 'tags'])
-//            ->get()
-//            ->groupBy('featured');
-//        return view('posts.index', [
-//            'featuredPosts' => $posts[1],
-//            'posts' => $posts[0],
-//            'tags' => Tag::all(),
-//        ]);
-//    }
-
     public function index()
     {
         $posts = Post::with(['user', 'likes']) // load user info for name/avatar
         ->where(function ($query) {
             $query->where('is_public', true);
-            if (auth()->check()) {
-                $query->orWhere('user_id', auth()->id()); // also see own private posts
-            }
         })
             ->latest()
             ->paginate(10); // 10 posts per page
@@ -66,29 +49,6 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-//    public function store(Request $request)
-//    {
-//        $attributes = $request->validate([
-//            'title' => ['required'],
-//            'salary' => ['required'],
-//            'location' => ['required'],
-//            'schedule' => ['required', Rule::in(['Full Time', 'Part Time', 'Internship'])],
-//            'url' => ['required', 'active_url'],
-//            'tags' => ['nullable'],
-//        ]);
-//
-//        $attributes['featured'] = $request->has('featured');
-//        $job = Auth::user()->employer->posts()->create(Arr::except($attributes, 'tags'));
-//
-//        if ($attributes['tags'] ?? false) {
-//            foreach (explode(',', $attributes['tags']) as $tag) {
-//                $job->tag($tag);
-//            }
-//        }
-//
-//        return redirect('/');
-//    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -156,4 +116,28 @@ class PostController extends Controller
     {
         //
     }
+
+    public function flashcards()
+    {
+        $posts = Post::where('user_id', auth()->id())
+            ->with(['user', 'tags', 'likes'])
+            ->latest()
+            ->paginate(10);
+
+        return view('posts.flashcards', compact('posts'));
+    }
+
+    public function togglePrivacy(Post $post)
+    {
+        // Ensure user owns the post
+        if (auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
+        $post->is_public = !$post->is_public;
+        $post->save();
+
+        return back()->with('success', 'Post visibility updated!');
+    }
+
 }

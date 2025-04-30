@@ -1,5 +1,5 @@
 @php
-    $classes = "p-4 bg-white/5 rounded-xl border-b border-transparent hover:border-blue-400 transition-colors duration-300 group";
+    $classes = "p-4 bg-(--color-card-bg) rounded-xl border-b border-transparent hover:border-(--color-card-bg) transition-colors duration-300 group";
 @endphp
 
 <div {{ $attributes(['class' => $classes]) }}>

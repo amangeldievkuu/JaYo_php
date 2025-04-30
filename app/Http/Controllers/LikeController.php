@@ -8,25 +8,49 @@ use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
+
     public function toggle(Post $post)
     {
         $user = auth()->user();
 
-        if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
+        // Check if already liked
+        $existing = Like::where('user_id', $user->id)
+            ->where('post_id', $post->id)
+            ->first();
 
-        $like = Like::where('user_id', $user->id)->where('post_id', $post->id)->first();
-
-        if ($like) {
-            $like->delete();
-            return response()->json(['liked' => false]);
+        if ($existing) {
+            // Unlike (delete)
+            $existing->delete();
         } else {
+            // Like (create)
             Like::create([
                 'user_id' => $user->id,
                 'post_id' => $post->id,
             ]);
-            return response()->json(['liked' => true]);
         }
+
+        return back()->with('success', 'Like toggled!');
     }
+
+//    public function toggle(Post $post)
+//    {
+//        $user = auth()->user();
+//
+//        if (!$user) {
+//            return response()->json(['message' => 'Unauthorized'], 401);
+//        }
+//
+//        $like = Like::where('user_id', $user->id)->where('post_id', $post->id)->first();
+//
+//        if ($like) {
+//            $like->delete();
+//            return response()->json(['liked' => false]);
+//        } else {
+//            Like::create([
+//                'user_id' => $user->id,
+//                'post_id' => $post->id,
+//            ]);
+//            return response()->json(['liked' => true]);
+//        }
+//    }
 }

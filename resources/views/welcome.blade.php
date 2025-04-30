@@ -1,6 +1,6 @@
 <x-layout>
     <div class="space-y-10">
-        <section class="text-center pt-6">
+        <section class="text-center pt-20">
             <h1 class="font-bold text-4xl">Lets find your next flashcard</h1>
             <x-forms.form action="/search" class="mt-6">
                 <x-forms.input name="q" :label="false" placeholder="Art"/>
@@ -12,7 +12,6 @@
                 @foreach($mostLiked as $post)
                     <x-job-card :$post/>
                 @endforeach
-
             </div>
         </section>
 

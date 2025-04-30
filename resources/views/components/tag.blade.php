@@ -1,9 +1,16 @@
-@props(['tag','size' => 'base'])
+@props(['tag', 'square_card' => false,'size' => 'base'])
 
 @php
-    $classes = "bg-white/10 hover:bg-white/25 rounded-xl font-bold transition-colors duration-300";
+    $classes = "rounded-xl font-bold transition-colors duration-300";
         if ($size === 'base') {
             $classes .= " px-5 py-2 text-sm";
+        }
+
+        if ($square_card === true){
+            $classes .= " bg-black text-white hover:bg-white hover:text-black";
+        }
+        if ($square_card === false) {
+            $classes .= " text-black bg-(--color-card-bg) hover:bg-white/25 hover:text-white";
         }
 
         if ($size === 'small') {

@@ -16,7 +16,9 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('content_front');
-            $table->text('content_back')->nullable(); // Ai generated content
+            $table->text('word')->nullable();
+            $table->string('pinyin')->nullable();
+            $table->string('translation')->nullable();
             $table->boolean('is_public')->default(true);
             $table->timestamps();
         });

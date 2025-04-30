@@ -30,11 +30,13 @@ class GenerateBackside implements ShouldQueue
             return;
         }
 
-        $backside = $deepSeek->translateAndPinyin($post->content_front);
+        $result = $deepSeek->translateAndPinyin($post->content_front);
 
-        if ($backside) {
+        if ($result) {
             $post->update([
-                'content_back' => $backside,
+                'word' => json_encode($result['breakdown'] ?? []),
+                'pinyin' => $result['pinyin'] ?? null,
+                'translation' => $result['translation'] ?? null,
             ]);
         }
     }
