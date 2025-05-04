@@ -15,7 +15,7 @@
     <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur flex justify-between items-center border-b border-white/10 py-4 px-10">
         <div>
             <a href="/">
-                <img src="{{Vite::asset("resources/images/logo.svg")}}" alt="">
+                <img src="{{Vite::asset("resources/images/logos.png")}}" class="w-15" alt="">
             </a>
         </div>
 

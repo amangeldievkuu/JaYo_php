@@ -98,16 +98,53 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        // Only allow editing by the owner
+        if (auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
+        return view('posts.edit', compact('post'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(Request $request, Post $post)
     {
-        //
+        // Authorization: only post owner can update
+        if (auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'content_front' => 'required|string|max:2000',
+            'tags' => 'nullable|string|max:255',
+            'is_public' => 'nullable|boolean',
+        ]);
+
+        // Update post
+        $post->update([
+            'content_front' => $validated['content_front'],
+            'is_public' => $request->has('is_public'),
+        ]);
+
+        // Handle tags (replace all)
+        if ($request->filled('tags')) {
+            $tags = collect(explode(',', $request->tags))
+                ->map(fn($tag) => trim($tag))
+                ->filter()
+                ->map(fn($name) => \App\Models\Tag::firstOrCreate(['name' => $name]))
+                ->pluck('id');
+
+            $post->tags()->sync($tags);
+        } else {
+            $post->tags()->detach(); // No tags provided
+        }
+
+        return redirect()->route('posts.show', $post)->with('success', 'Post updated successfully!');
     }
+
 
     /**
      * Remove the specified resource from storage.
