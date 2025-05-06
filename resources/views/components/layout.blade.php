@@ -21,7 +21,7 @@
 
         <div class="space-x-6 font-bold">
             <a href="/posts" class="hover:text-(--color-card-bg)">Posts</a>
-            <a href="" class="hover:text-(--color-card-bg)">Community</a>
+{{--            <a href="" class="hover:text-(--color-card-bg)">Community</a>--}}
             <a href="{{ route('posts.flashcards') }}" class="hover:text-(--color-card-bg)">My Flashcards</a>
         </div>
 
